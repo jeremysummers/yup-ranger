@@ -1,5 +1,6 @@
 import Alpine from "alpinejs";
-window.Alpine = Alpine;
 import "./modules/form";
+
+window.Alpine = Alpine;
 Alpine.start();
 console.log("app");

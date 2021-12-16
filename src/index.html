@@ -15,22 +15,28 @@
     <div class="mx-3">
       <h1>FORM</h1>
 
-      <form x-data="form" @focusout="onchange()" @change="onchange()">
+      <form
+        x-data="form"
+        @change="validateForm"
+        @focusout="focusout"
+        @submit.prevent="submit"
+      >
         <div x-text="JSON.stringify(formErrors)"></div>
-        <div x-text="JSON.stringify(formData)"></div>
+        <div x-text="isFormValid"></div>
+
         <div class="mb-3">
           <label for="exampleInputEmail1" class="form-label">First Name</label>
           <input
             type="firstName"
             class="form-control"
+            name="firstName"
             x-model="formData.firstName"
           />
-          <template x-if="formErrors?.firstName?.message">
-            <div
-              class="invalid-feedback d-block"
-              x-text="formErrors.firstName.message"
-            ></div>
-          </template>
+          <div
+            class="invalid-feedback d-block"
+            x-show="isError('firstName')"
+            x-text="showError('firstName')"
+          ></div>
         </div>
         <div class="mb-3">
           <label
@@ -39,27 +45,31 @@
             x-model="formData.email"
             >Email address</label
           >
-          <input type="email" class="form-control" x-model="formData.email" />
-          <template x-if="formErrors?.email?.message">
-            <div
-              class="invalid-feedback d-block"
-              x-text="formErrors.email.message"
-            ></div>
-          </template>
+          <input
+            type="email"
+            name="email"
+            class="form-control"
+            x-model="formData.email"
+          />
+          <div
+            class="invalid-feedback d-block"
+            x-show="isError('email')"
+            x-text="showError('email')"
+          ></div>
         </div>
         <div class="mb-3">
           <label for="exampleInputPassword1" class="form-label">Password</label>
           <input
             type="password"
             class="form-control"
+            name="password"
             x-model="formData.password"
           />
-          <template x-if="formErrors?.password?.message">
-            <div
-              class="invalid-feedback d-block"
-              x-text="formErrors.password.message"
-            ></div>
-          </template>
+          <div
+            class="invalid-feedback d-block"
+            x-show="isError('password')"
+            x-text="showError('password')"
+          ></div>
         </div>
         <div class="mb-3 form-check">
           <label class="form-check-label" for="exampleCheck1"
@@ -70,12 +80,11 @@
               x-model="formData.agree"
             />Check me out</label
           >
-          <template x-if="formErrors?.agree?.message">
-            <div
-              class="invalid-feedback d-block"
-              x-text="formErrors.agree.message"
-            ></div>
-          </template>
+          <div
+            class="invalid-feedback d-block"
+            x-show="isError('agree')"
+            x-text="showError('agree')"
+          ></div>
         </div>
 
         <div class="mb-3 form-check">
@@ -84,7 +93,7 @@
             type="radio"
             name="gender"
             value="male"
-            x-model="gender"
+            x-model="formData.gender"
           />
           <label class="form-check-label" for="flexRadioDefault1"> Male </label>
         </div>
@@ -94,17 +103,16 @@
             type="radio"
             name="gender"
             value="female"
-            x-model="gender"
+            x-model="formData.gender"
           />
           <label class="form-check-label" for="flexRadioDefault2">
             Female
           </label>
-          <template x-if="formErrors?.gender?.message">
-            <div
-              class="invalid-feedback d-block"
-              x-text="formErrors.gender.message"
-            ></div>
-          </template>
+          <div
+            class="invalid-feedback d-block"
+            x-show="isError('gender')"
+            x-text="showError('gender')"
+          ></div>
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
       </form>
